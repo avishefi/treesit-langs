@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test-ghaction-fix
     paths:
       - .github/workflows/build.yml
 
@@ -18,15 +19,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # TODO: Get host platform from somewher instead of specifying it explicitly here.
+          # TODO: Get host platform from somewhere instead of specifying it explicitly here.
           - os: macos-latest
             bundle_os: macos
             ext: dylib
-            host: x86_64-apple-darwin
+            target: x86_64-apple-darwin
+            arch: X64
           - os: macos-latest
             bundle_os: macos
             ext: dylib
             target: aarch64-apple-darwin
+            arch: ARM64
           - os: ubuntu-latest
             bundle_os: linux
             ext: so
@@ -85,6 +88,7 @@ jobs:
         if: matrix.target
         run: |
           mv tree-sitter-grammars-${{ matrix.bundle_os }}-${{ env.BUNDLE_VERSION }}.tar.gz tree-sitter-grammars.${{ matrix.target }}.v${{ env.BUNDLE_VERSION }}.tar.gz
+
       - name: Make a target-explicit copy of native compilation's binary
         if: ${{ !matrix.target && matrix.host }}
         shell: bash
