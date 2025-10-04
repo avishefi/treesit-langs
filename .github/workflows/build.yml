@@ -20,16 +20,14 @@ jobs:
       matrix:
         include:
           # TODO: Get host platform from somewhere instead of specifying it explicitly here.
-          - os: macos-latest
+          - os: macos-15-intel
             bundle_os: macos
             ext: dylib
             target: x86_64-apple-darwin
-            arch: X64
-          - os: macos-latest
+          - os: macos-15
             bundle_os: macos
             ext: dylib
             target: aarch64-apple-darwin
-            arch: ARM64
           - os: ubuntu-latest
             bundle_os: linux
             ext: so
